@@ -1,7 +1,7 @@
 %function FP_highlow_input_analysis()%(handles)
 
 
-load('TYRN20180612rec2-180612-165444.mat')
+load('TYRN20180608rec1-180608-172158.mat')
 
 % bandpass to 5 Hz via rec from Dayu
 
@@ -37,7 +37,7 @@ for k=1:length(trigger_high)
 end
 
 [trigger_high_pks, trigger_high_pks_locs] = findpeaks(trigger_high);
-num_high_points = 930*ones(1,length(trigger_high_pks_locs));
+num_high_points = .01*ones(1,length(trigger_high_pks_locs));
 
 %%Remove high peaks from total list to get low peaks only
 
@@ -51,7 +51,7 @@ for i=1:length(trigger_pks_locs)
 end
 
 trigger_pks_locs(trigger_pks_locs==0) = [];
-num_points = 925*ones(1,length(trigger_pks_locs));
+num_points = 0.01*ones(1,length(trigger_pks_locs));
 
  figure; plot(input); hold on; plot(trigger_pks_locs',num_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'none');
  hold on; plot(trigger_high_pks_locs',num_high_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'none');
