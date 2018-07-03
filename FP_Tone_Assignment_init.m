@@ -9,15 +9,22 @@ tone_length = 100/(1000*FL); %100 ms
 tones = CMEDPC;
 responses = VarName5;
 init_delay = VarName4/(1000*FL);
-resp_time = IVDATA20180609/(1000*FL); %change based on name of behav data file
+resp_time = IVDATA20180607/(1000*FL); %change based on name of behav data file
 
+for rand_np = 1:length(trigger_pks_locs)
+    if tones(rand_np) == 0
+        trigger_pks_locs(rand_np) = 0;
+    else
+    end
+end
+
+trigger_pks_locs(trigger_pks_locs==0) = [];
 init_delay(init_delay==0) = [];
 tones(tones==0) = [];
 responses(responses==0) = [];
-resp_time(resp_time==0) = [];
 
-compiled_tones = [trigger_pks_locs tones];
-compiled_resp = [trigger_pks_locs responses];
+%compiled_tones = [trigger_pks_locs tones];
+%compiled_resp = [trigger_pks_locs responses];
 
 %% Frequency alloction
 TONE(1).freq = 500;
@@ -31,9 +38,9 @@ TONE(7).freq = 32000;
 %% Assigning deltaf/f for each tone
 
 for ii=1:length(tones)
-    baseline = mean(Lfilter((trigger_pks_locs(ii)-init_delay(ii)-FL):trigger_pks_locs(ii)-init_delay(ii))); % shifted baseline so is before initiation
+    baseline = mean(Lfilter((trigger_pks_locs(ii)-FL):trigger_pks_locs(ii))); % shifted baseline so is before initiation
     if tones(ii) == 500
-        TONE(1).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-FL:trigger_pks_locs(ii)+(3*FL))/baseline;
+        TONE(1).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(3*FL))/baseline;
         TONE(1).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
         TONE(1).init_delay(ii) = init_delay(ii);
         TONE(1).response(ii) = responses(ii);
@@ -166,6 +173,7 @@ figure; shadedErrorBar(x,TONE(6).deltaf,{@mean,@std}); ylim([0.98 1.04]) % rever
 foils_rev = [TONE(1).deltaf' TONE(2).deltaf' TONE(3).deltaf' TONE(4).deltaf' TONE(5).deltaf' TONE(7).deltaf']';
 
 figure; shadedErrorBar(x,foils_rev,{@mean,@std}); ylim([0.98 1.04])
+
 
 %% If want to label whole trace with tones
 
