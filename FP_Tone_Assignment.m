@@ -9,12 +9,13 @@ tone_length = 100/(1000*FL); %100 ms
 tones = CMEDPC;
 responses = VarName5;
 init_delay = VarName4/(1000*FL);
-resp_time = IVDATA20180609/(1000*FL); %change based on name of behav data file
+resp_time = IVDATA20180608/(1000*FL); %change based on name of behav data file
 
 init_delay(init_delay==0) = [];
 tones(tones==0) = [];
+resp_time(responses==0) = [];
 responses(responses==0) = [];
-resp_time(resp_time==0) = [];
+
 
 compiled_tones = [trigger_pks_locs tones];
 compiled_resp = [trigger_pks_locs responses];
@@ -158,7 +159,10 @@ figure; plot(mean(TONE(4).deltaf)); ylim([0.98 1.04])
 
 x = (1:size(TONE(4).deltaf,2));
 
-figure; shadedErrorBar(x,TONE(4).deltaf,{@mean,@std}); ylim([0.98 1.04]) % original targt tone plotted
+if size(TONE(4).deltaf,1) > 1
+    figure; shadedErrorBar(x,TONE(4).deltaf,{@mean,@std}); ylim([0.98 1.04]) % original targt tone plotted
+else
+end
 
 
 figure; shadedErrorBar(x,TONE(6).deltaf,{@mean,@std}); ylim([0.98 1.04]) % reversed target tone plotted
@@ -174,8 +178,16 @@ tone_label = num2str(tones);
 figure; plot(Ca); hold on; plot(trigger_pks_locs',num_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'none');
  hold on; plot(trigger_high_pks_locs',num_high_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'none');
 
-num_points_Ca = 920*ones(1,length(trigger_pks_locs));
+num_points_Ca = ones(1,length(trigger_pks_locs));
 
 for i = 1:length(trigger_pks_locs)
     t = text(trigger_pks_locs(i)', num_points_Ca(i), {tone_label(i,:)});
+end
+
+
+
+for xi = 1:size(TONE,2)
+    for xii = 1:size(TONE(xi).deltaf,1)
+    figure; plot(TONE(xi).deltaf(xii,:)); title(num2str([xi xii])); ylim([0.97 1.05])
+    end
 end

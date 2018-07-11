@@ -1,46 +1,41 @@
 
-load KRSY20180327rec2-180327-111655.mat;
+%load KRSY20180327rec2-180327-111655.mat;
 
 figure; plot(Ca)
 
 
-sample_rate = 6000;
-%onset = 31300; %% onset of stimulus
-%onset = 275600;
+sample_rate = 1017.25;
 
-onset = 40100;
-
-
-baseline = mean(Ca((onset-(0.2*sample_rate)):onset));
-adj_stimulus = Ca((onset-(2000)):(onset+(12000)))/baseline;
-figure; plot(adj_stimulus, 'k')
-S = downsample(adj_stimulus,10);
-mat2clip(S)
+FL = 1017.25;                       %%Sampling rate
+[b, a] = butter(4, 5/FL, 'low');
+Lfilter = filtfilt(b, a, double(Ca));
 
 
+figure; plot(Lfilter)
+
+%% Hard-code onset values based on FP trace
+
+%25;55;85
+
+onset1 = 46400;
+onset2 = 88500;
+onset3 = 107500;
+
+NOX(1).onset = onset1;
+NOX(2).onset = onset2;
+NOX(3).onset = onset3;
+
+%%
+
+for i = 1:size(NOX,2)
+    baseline = mean(Lfilter((NOX(i).onset-(0.2*sample_rate)):(NOX(i).onset)));
+    NOX(i).deltaf = Lfilter((NOX(i).onset-(sample_rate)):(NOX(i).onset+(3*sample_rate)))/baseline;
+    figure; plot(NOX(i).deltaf, 'k')
+end
+
+x = (1:size(NOX(1).deltaf,2));
+figure; shadedErrorBar(x,[NOX(1).deltaf' NOX(2).deltaf' NOX(3).deltaf']',{@mean,@std}); ylim([0.98 1.10])
 
 
-%%Avg
-baseline_toe1 = mean(Ca(12000:14000));
-figure; plot(Ca/baseline_toe1, 'k'); set(gca, 'Xlim', [12000 21000]); set(gca, 'Ylim', [0.9 1.1]);
-%hold on; plot([6666 6666 13332],[-.2 -.25 -.25],'k-','linewidth',2);
 
 
-baseline_toe2 = mean(Ca(30000:32000));
-figure; plot(Ca/baseline_toe2, 'k'); set(gca, 'Xlim', [30000 39000]); set(gca, 'Ylim', [0.9 1.1]);
-hold on; plot([33000 33000 34500],[1 .95 .95],'k-','linewidth',2);
-
-
-%%Down-sampled
-
-down_Ca = downsample(Ca,20);
-baseline_down_toe1 = mean(down_Ca(600:700));
-figure; plot(down_Ca/baseline_down_toe1, 'k'); set(gca, 'Xlim', [600 1050]); set(gca, 'Ylim', [0.9 1.1]);
-KRSYday4toe1 = down_Ca(600:1050)/baseline_down_toe1;
-
-baseline_down_toe2 = mean(down_Ca(1500:1600));
-figure; plot(down_Ca/baseline_down_toe2, 'k'); set(gca, 'Xlim', [1500 1950]); set(gca, 'Ylim', [0.9 1.1]);
-KRSYday4toe2 = down_Ca(1500:1950)/baseline_down_toe2;
-
-S = [KRSYday4toe1' KRSYday4toe2'];
-mat2clip(S);

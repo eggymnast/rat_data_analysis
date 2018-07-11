@@ -1,13 +1,14 @@
 %function FP_highlow_input_analysis()%(handles)
 
 
-%load('TYRN20180608rec1-180608-172158.mat')
+load('TYRN20180604rec1-180604-185029.mat')
 
 % bandpass to 5 Hz via rec from Dayu
 
 FL = 1017.25;                       %%Sampling rate
 [b, a] = butter(4, 5/FL, 'low');
 Lfilter = filtfilt(b, a, double(Ca));
+%Lfilter = smooth(Lfilter);
 figure; plot(Lfilter)
 
 

@@ -9,7 +9,7 @@ tone_length = 100/(1000*FL); %100 ms
 tones = CMEDPC;
 responses = VarName5;
 init_delay = VarName4/(1000*FL);
-resp_time = IVDATA20180607/(1000*FL); %change based on name of behav data file
+resp_time = IVDATA20180604/(1000*FL); %change based on name of behav data file
 
 for rand_np = 1:length(trigger_pks_locs)
     if tones(rand_np) == 0
@@ -21,7 +21,10 @@ end
 trigger_pks_locs(trigger_pks_locs==0) = [];
 init_delay(init_delay==0) = [];
 tones(tones==0) = [];
+resp_time(responses==0) = [];
 responses(responses==0) = [];
+
+num_points = 0.01*ones(1,length(trigger_pks_locs));
 
 %compiled_tones = [trigger_pks_locs tones];
 %compiled_resp = [trigger_pks_locs responses];
@@ -40,43 +43,43 @@ TONE(7).freq = 32000;
 for ii=1:length(tones)
     baseline = mean(Lfilter((trigger_pks_locs(ii)-FL):trigger_pks_locs(ii))); % shifted baseline so is before initiation
     if tones(ii) == 500
-        TONE(1).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(3*FL))/baseline;
+        TONE(1).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
         TONE(1).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
         TONE(1).init_delay(ii) = init_delay(ii);
         TONE(1).response(ii) = responses(ii);
         TONE(1).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 1000
-         TONE(2).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(2).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(2).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(2).init_delay(ii) = init_delay(ii);
          TONE(2).response(ii) = responses(ii);
          TONE(2).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 2000
-         TONE(3).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(3).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(3).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(3).init_delay(ii) = init_delay(ii);
          TONE(3).response(ii) = responses(ii);
          TONE(3).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 4000
-         TONE(4).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(4).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(4).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(4).init_delay(ii) = init_delay(ii);
          TONE(4).response(ii) = responses(ii);
          TONE(4).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 8000
-         TONE(5).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(5).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(5).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(5).init_delay(ii) = init_delay(ii);
          TONE(5).response(ii) = responses(ii);
          TONE(5).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 16000
-         TONE(6).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(6).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(6).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(6).init_delay(ii) = init_delay(ii);
          TONE(6).response(ii) = responses(ii);
          TONE(6).resp_time(ii) = resp_time(ii);
     elseif tones(ii) == 32000
-         TONE(7).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)-(FL):trigger_pks_locs(ii)+(3*FL))/baseline;
+         TONE(7).deltaf(ii,:) = Lfilter(trigger_pks_locs(ii)+init_delay(ii)-FL:trigger_pks_locs(ii)+init_delay(ii)+(4*FL))/baseline;
          TONE(7).deltaf_resp(ii,:) = Lfilter(trigger_pks_locs(ii)+resp_time(ii)-FL:trigger_pks_locs(ii)+resp_time(ii)+(3*FL))/baseline;
          TONE(7).init_delay(ii) = init_delay(ii);
          TONE(7).response(ii) = responses(ii);
