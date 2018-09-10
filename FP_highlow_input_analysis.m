@@ -1,7 +1,7 @@
 %function FP_highlow_input_analysis()%(handles)
 
 
-%load('TYRN20180613rec1-180613-182809.mat')
+load('JAMN20180827rec1-180827-162102.mat')
 
 % bandpass to 5 Hz via rec from Dayu
 
@@ -20,7 +20,7 @@ trigger = input(:);
 %%Fnd all trigger points, high and low
 
 for j=1:length(trigger)
-    if trigger(j)<45
+    if trigger(j)<25
         trigger(j) = 0;
     else trigger(j) = trigger(j);
     end
@@ -33,7 +33,7 @@ end
 trigger_high = trigger;
 
 for k=1:length(trigger_high)
-    if trigger_high(k)<65
+    if trigger_high(k)<55
         trigger_high(k) = 0;
     else trigger_high(k) = trigger_high(k);
     end
@@ -54,7 +54,7 @@ for i=1:length(trigger_pks_locs)
 end
 
 trigger_pks_locs(trigger_pks_locs==0) = [];
-num_points = 0.01*ones(1,length(trigger_pks_locs));
+num_points = .02*ones(1,length(trigger_pks_locs));
 
  figure; plot(input); hold on; plot(trigger_pks_locs',num_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'none');
  hold on; plot(trigger_high_pks_locs',num_high_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'none');

@@ -1,7 +1,7 @@
 %function FP_highlow_input_analysis()%(handles)
 
 
-load('TYRN20180604rec1-180604-185029.mat')
+load('TYRN20180608rec1-180608-172158.mat')
 
 % bandpass to 5 Hz via rec from Dayu
 
@@ -18,7 +18,7 @@ trigger = input(:);
 %%Fnd all trigger points, high and low
 
 for j=1:length(trigger)
-    if trigger(j)<7.5
+    if trigger(j)<45
         trigger(j) = 0;
     else trigger(j) = trigger(j);
     end
@@ -31,7 +31,7 @@ end
 trigger_high = trigger;
 
 for k=1:length(trigger_high)
-    if trigger_high(k)<60
+    if trigger_high(k)<75
         trigger_high(k) = 0;
     else trigger_high(k) = trigger_high(k);
     end

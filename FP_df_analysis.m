@@ -1,3 +1,7 @@
+TONE = BASE_LONG; %%change based on saved data
+
+FL = 1017.25;
+
 %%  Integral and Peak Analysis
 
 for iv = 1:size(TONE,2)
@@ -30,10 +34,37 @@ plot(ones(numel(TONE(m).peak_resp),1)*m, TONE(m).peak_resp, 'k.', 'MarkerSize', 
 end 
 hold off
 
+%%
 
-figure;imagesc([TONE(1).deltaf' TONE(2).deltaf' TONE(3).deltaf' TONE(4).deltaf' TONE(5).deltaf' TONE(7).deltaf']'); colormap jet; colorbar; caxis([0.98 1.04])
 
-figure; imagesc(TONE(6).deltaf); colormap jet; colorbar; caxis([0.98 1.04])
+
+
+foils_rev = [TONE(1).deltaf' TONE(2).deltaf' TONE(3).deltaf' TONE(4).deltaf' TONE(5).deltaf' TONE(7).deltaf']';
+
+foils_noTT = [TONE(1).deltaf' TONE(2).deltaf' TONE(3).deltaf' TONE(5).deltaf' TONE(7).deltaf']';
+
+figure;imagesc([TONE(1).deltaf' TONE(2).deltaf' TONE(3).deltaf' TONE(4).deltaf' TONE(5).deltaf' TONE(7).deltaf']'); colormap jet;... 
+colorbar; caxis([1.00 1.04])
+
+figure;imagesc([TONE(4).detect' TONE(4).withold']'); colormap jet; colorbar; caxis([1.00 1.04])
+
+figure;imagesc([TONE(6).detect' TONE(6).withold']'); colormap jet; colorbar; caxis([1.00 1.04])
+
+figure; imagesc(TONE(6).deltaf); colormap jet; colorbar; caxis([1.00 1.04])
+
+foils_out = downsample(foils_rev',20);
+foils_noTT_out = downsample(foils_noTT',20);
+target_new_out = downsample(TONE(6).deltaf',20);
+target_old_out = downsample(TONE(4).deltaf',20);
+
+
+mean_foils = mean(foils_out');
+mean_foils_noTT = mean(foils_noTT_out');
+mean_newTT = mean(target_new_out');
+mean_oldTT = mean(target_old_out');
+
+%mat2clip([mean_newTT' mean_foils_noTT' mean_oldTT']);
+
 
 %% Analysis based on response type
 
@@ -52,3 +83,13 @@ for vii = 1:size(TONE,2)
         end
     end
 end
+
+
+
+% comp = [REV4_1(4).deltaf' REV4_2(4).deltaf' REV5_1(4).deltaf' REV5_2(4).deltaf' REV6_1(4).deltaf' REV6_2(4).deltaf']';
+% comp_down = downsample(comp',20);
+% mean_comp = mean(comp_down');
+% mat2clip(mean_comp')
+
+
+

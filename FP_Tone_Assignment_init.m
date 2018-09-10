@@ -6,17 +6,17 @@ FL = 1017.25;
 
 tone_length = 100/(1000*FL); %100 ms
 
-tones = CMEDPC;
-responses = VarName5;
-init_delay = VarName4/(1000*FL);
-resp_time = IVDATA20180604/(1000*FL); %change based on name of behav data file
+% tones = CMEDPC;
+% responses = VarName5;
+% init_delay = VarName4/(1000*FL);
+% resp_time = IVDATA20180608/(1000*FL); %change based on name of behav data file
 
-for rand_np = 1:length(trigger_pks_locs)
-    if tones(rand_np) == 0
-        trigger_pks_locs(rand_np) = 0;
-    else
-    end
-end
+% for rand_np = 1:length(trigger_pks_locs)
+%     if tones(rand_np) == 0
+%         trigger_pks_locs(rand_np) = 0;
+%     else
+%     end
+% end
 
 trigger_pks_locs(trigger_pks_locs==0) = [];
 init_delay(init_delay==0) = [];
@@ -185,7 +185,7 @@ tone_label = num2str(tones);
 figure; plot(Ca); hold on; plot(trigger_pks_locs',num_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'b', 'MarkerEdgeColor', 'none');
  hold on; plot(trigger_high_pks_locs',num_high_points,'sr', 'MarkerSize',5,'MarkerFaceColor', 'r', 'MarkerEdgeColor', 'none');
 
-num_points_Ca = 920*ones(1,length(trigger_pks_locs));
+num_points_Ca = ones(1,length(trigger_pks_locs));
 
 for i = 1:length(trigger_pks_locs)
     t = text(trigger_pks_locs(i)', num_points_Ca(i), {tone_label(i,:)});

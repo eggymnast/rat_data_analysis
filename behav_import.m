@@ -7,9 +7,9 @@
 
 %% Use if loading already imported behavioral data
 
-load('TYRN_2018-06-04_rec1.mat')
+%load('TYRN_2018-06-08_rec1.mat')
 
 CMEDPC = BEHAV(:,1);
-IVDATA20180604 = BEHAV(:,2);
+IVDATA20180810 = BEHAV(:,2);
 VarName4 = BEHAV(:,3);
 VarName5 = BEHAV(:,4);
