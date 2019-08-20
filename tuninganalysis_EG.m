@@ -28,7 +28,7 @@ filelist = listdlg('PromptString', 'Pick files to sort: ', ...
                     'ListString', {d.name}); 
 
 numsweeps=numtrials*numtones;
-fname=[filestosort,'\',d(filelist).name];
+fname=[filestosort,'/',d(filelist).name];
 input_all=abfload(fname); 
 input = input_all(:,7,:); % auditory trace
 %input_2 = input_all(:,6,:); % LC trace
